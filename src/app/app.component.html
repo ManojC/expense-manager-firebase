@@ -31,15 +31,33 @@
                     </td>
                 </tr>
                 <ng-container *ngIf="expenses && expenses.length">
-                    <tr *ngFor="let expense of expenses; index as index;">
-                        <td class="text-info">{{index + 1}}</td>
-                        <td>{{expense.name}}</td>
-                        <td>{{expense.amount}}</td>
-                        <td>{{expense.description}}</td>
-                        <td class="text-uppercase">
-                            <a class="btn btn-link" (click)="edit(expense)">Edit</a>
-                            <a class="btn btn-link" (click)="delete(expense)">Delete</a>
-                        </td>
+                    <tr #row data-view="view" *ngFor="let expense of expenses; index as index;">
+                        <ng-container *ngIf="row.getAttribute('data-view') == 'view'">
+                            <td class="text-info">{{index + 1}}</td>
+                            <td>{{expense.name}}</td>
+                            <td>{{expense.amount}}</td>
+                            <td>{{expense.description}}</td>
+                            <td class="text-uppercase">
+                                <a class="btn btn-link" (click)="row.setAttribute('data-view', 'edit')">Edit</a>
+                                <a class="btn btn-link" (click)="delete(expense)">Delete</a>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="row.getAttribute('data-view') == 'edit'">
+                            <td class="text-info">{{index + 1}}</td>
+                            <td [class.has-error]="!expense.name">
+                                <input name="name" [(ngModel)]="expense.name" type="text" placeholder="expense name" class="form-control">
+                            </td>
+                            <td [class.has-error]="!expense.amount">
+                                <input name="amount" [(ngModel)]="expense.amount" type="number" placeholder="expense amount" class="form-control">
+                            </td>
+                            <td [class.has-error]="!expense.description">
+                                <input name="description" [(ngModel)]="expense.description" type="text" placeholder="expense description" class="form-control">
+                            </td>
+                            <td class="text-uppercase">
+                                <a class="btn btn-link" (click)="update(expense)">Update</a>
+                                <a class="btn btn-link" (click)="row.setAttribute('data-view', 'view')">Cancel</a>
+                            </td>
+                        </ng-container>
                     </tr>
                 </ng-container>
             </tbody>

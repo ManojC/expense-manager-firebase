@@ -21,11 +21,11 @@ export class AppComponent {
         this._db.list('/expenses').push(this.newExpense).then((response: any) => console.log(response)).catch((error: any) => console.log(error));
     }
 
-    private edit(expense: Expense) {
-        console.log(expense);
-    }
-
-    private delete(expense: Expense) {
-        console.log(expense);
+    private update(expense: Expense) {
+        let valid: boolean = true;
+        Object.keys(expense).forEach((key: string) => valid = !!expense[key] && valid);
+        if (valid) {
+            this._db.list('/expenses').set(expense.$key, expense).then((response: any) => console.log(response)).catch((error: any) => console.log(error));
+        }
     }
 }
