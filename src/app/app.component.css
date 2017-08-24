@@ -1,0 +1,50 @@
+p{
+    margin-top: 100px;
+}
+
+.user-input {
+    width: 200px;
+    height: 40px;
+    display: inline;
+}
+
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.card {
+    background-color: lightblue;
+    padding: 10px 40px 20px;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+.card ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    list-style-type: square;
+}
+
+#btnSave { 
+    width: 100%;
+}
+
+.mtl {
+    margin-top: 20px;
+}
+
+@media screen and (min-width: 786px) {
+    .card {
+        min-width: 300px;
+        max-width: 300px;
+    }
+}
