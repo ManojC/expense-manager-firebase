@@ -1,6 +1,6 @@
 <h1 class="text-center">
     Expense Manager
-    <input class="form-control user-input" [value]="user" (keyup.enter)="updateUser($event)" placeholder="user name (press enter)">
+    <input class="form-control user-input text-capitalize" [value]="user" (keyup.enter)="updateUser($event)" placeholder="user name (press enter)">
 </h1>
 <div class="container">
     <div *ngIf="user" class="card-container">
