@@ -1,0 +1,82 @@
+.navbar {
+    background-color: #337ab7;
+}
+
+.navbar-header {
+    margin: 0;
+}
+
+.glyphicon {
+    color: white;
+    cursor: pointer;
+}
+
+.glyphicon:hover {
+    color: white;
+}
+
+.user-menu {
+    display: block;
+    margin: 0;
+    min-width: 0;
+}
+
+.user-menu a {
+    cursor: pointer;
+}
+
+p{
+    margin-top: 100px;
+}
+
+.user-input {
+    width: 200px;
+    height: 40px;
+    display: inline;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: lightblue;
+    padding: 10px 40px 20px;
+    margin: 20px;
+    border-radius: 5px;
+}
+
+.new-card {
+    position: absolute;
+    left: 0;
+    margin: auto;
+}
+
+.close-card{
+    right: -30px;
+    font-size: large;
+}
+
+#btnSave { 
+    width: 100%;
+}
+
+.mtl {
+    margin-top: 20px;
+}
+
+@media screen and (min-width: 786px) {
+    .card {
+        min-width: 300px;
+        max-width: 300px;
+    }
+}

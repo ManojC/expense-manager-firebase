@@ -10,10 +10,18 @@ export class CanActivateViaAuthGuard implements CanActivate {
         private _Router: Router) { }
 
     public canActivate(): boolean {
-        if (!this._AngularFireAuth.auth.currentUser) {
-            this._Router.navigate(['/login']);
-            return false;
+        let user: any = sessionStorage.getItem('user');
+        if (user) {
+            try {
+                user = JSON.parse(user);
+                if (user && user.email && user.providerId) {
+                    return true;
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
-        return true;
+        this._Router.navigate(['login']);
+        return false;
     }
 }

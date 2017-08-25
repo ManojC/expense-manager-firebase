@@ -1,2 +1,83 @@
-<h1>APP</h1>
-<router-outlet></router-outlet>
+<!-- header -->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header col-lg-12">
+            <span class="navbar-brand glyphicon glyphicon-home"></span>
+            <span class="navbar-brand glyphicon glyphicon-menu-hamburger pull-right" (click)="showOptions = !showOptions;"></span>
+            <span class="navbar-brand glyphicon glyphicon glyphicon-plus-sign pull-right" (click)="showCard = true;"></span>
+            <ul class="dropdown-menu user-menu pull-right hidden" [class.hidden]="!showOptions">
+                <li><a (click)="showOptions = !showOptions;" [routerLink]="['profile']">Profile</a></li>
+                <li role="separator" class="divider"></li>
+                <li *ngIf="user"><a (click)="signOut(); showOptions = !showOptions;">Sign Out</a></li>
+                <li *ngIf="!user"><a (click)="signIn(); showOptions = !showOptions;">Sign In</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- header ends -->
+
+<!-- body -->
+<div class="container">
+    <div *ngIf="user" class="card-container">
+        <div *ngIf="showCard" class="card">
+            <span class="glyphicon glyphicon-remove pull-right close-card" (click)="showCard = false;"></span>
+            <div class="card-block">
+                <h4 class="card-title text-center text-uppercase">
+                    New Expense
+                </h4>
+                <div class="row mtl" [class.has-error]="!newExpense.name && !valid">
+                    <input name="name" [(ngModel)]="newExpense.name" type="text" placeholder="expense name" class="form-control">
+                </div>
+                <div class="row mtl" [class.has-error]="!newExpense.name && !valid">
+                    <input name="amount" [(ngModel)]="newExpense.amount" type="number" placeholder="expense amount" class="form-control">
+                </div>
+                <div class="row mtl" [class.has-error]="!newExpense.name && !valid">
+                    <input name="description" [(ngModel)]="newExpense.description" type="text" placeholder="expense description" class="form-control">
+                </div>
+                <div class="row mtl">
+                    <button id="btnSave" class="btn btn-sm btn-primary text-center" [disabled]="!newExpense.name || !newExpense.amount || !newExpense.description"
+                        (click)="save(); showCard = false;">
+                        SAVE &nbsp; <i class="glyphicon glyphicon-upload"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="expenses && expenses.length">
+            <div *ngFor="let expense of expenses" class="card">
+                <div class="card-block">
+                    <h4 class="card-title text-center text-uppercase">{{expense.name}}</h4>
+                    <div class="row mtl">
+                        <input name="name" [(ngModel)]="expense.name" type="text" placeholder="expense name" class="form-control">
+                    </div>
+                    <div class="row mtl">
+                        <input name="amount" [(ngModel)]="expense.amount" type="number" placeholder="expense amount" class="form-control">
+                    </div>
+                    <div class="row mtl">
+                        <input name="description" [(ngModel)]="expense.description" type="text" placeholder="expense description" class="form-control">
+                    </div>
+                    <div class="row mtl">
+                        <button class="btn btn-sm btn-primary text-center" [disabled]="!expense.name || !expense.amount || !expense.description"
+                            (click)="update(expense)">
+                            UPDATE &nbsp; <i class="glyphicon glyphicon-upload"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger text-center pull-right" [disabled]="!expense.name || !expense.amount || !expense.description"
+                            (click)="delete(expense)">
+                            DELETE &nbsp; <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div *ngIf="user && (!expenses || !expenses.length)" class="row">
+        <div class="text-center text-primary">
+            No Records found!
+        </div>
+    </div>
+    <div *ngIf="!user" class="row">
+        <p class="text-center text-primary">
+            Please enter your user name & press enter to access expenses!
+        </p>
+    </div>
+</div>
+<!-- body ends -->

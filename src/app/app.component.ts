@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from "angularfire2/auth";
+import * as firebase from 'firebase'
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { Expense } from "./models/expense";
 
@@ -7,36 +9,24 @@ import { Expense } from "./models/expense";
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-    private user: string = "";
+export class AppComponent implements OnInit {
+
+    private user: any;
     private expenses: Expense[] = [];
     private newExpense: Expense = new Expense();
     private valid: boolean = true;
     private dbList: FirebaseListObservable<any[]>;
 
-    constructor(private _db: AngularFireDatabase) {
-        let user: string = location.search;
-        if (user.indexOf('?user=') >= 0) {
-            this.user = user.split('?user=')[1];
-        }
-        if (this.user) {
+    constructor(private _AngularFireAuth: AngularFireAuth,
+        private _db: AngularFireDatabase) { }
 
-            this.dbList = this._db.list(`/${this.user.trim().toLowerCase()}/expenses`);
-            this.dbList.subscribe((response: Expense[]) => {
-                if (response && response.length) {
-                    this.expenses = response.filter((item: Expense) => {
-                        return !item.isDeleted;
-                    });
-                }
-            });
-        }
-    }
-
-    private updateUser(event: any): void {
-        if (!event.target.value) {
-            return;
-        }
-        location.search = `user=${event.target.value.toLowerCase()}`;
+    ngOnInit(): void {
+        this._AngularFireAuth.authState.subscribe((user: firebase.User) => {
+            if (user) {
+                this.updateStorage(user);
+                this.initialiseDatabase();
+            }
+        });
     }
 
     private save(): void {
@@ -71,6 +61,42 @@ export class AppComponent {
     }
 
     private saveLogs(expense: Expense): void {
-        this._db.list(`/${this.user.trim().toLowerCase()}/logs/${expense.$key}`).push(Expense.getLogs(expense));
+        this._db.list(`/${this.user.uid}/logs/${expense.$key}`).push(Expense.getLogs(expense));
+    }
+
+    private initialiseDatabase(): void {
+        if (this.user && this.user.uid) {
+            this.dbList = this._db.list(`/${this.user.uid}/expenses`);
+            this.dbList.subscribe((response: Expense[]) => {
+                if (response && response.length) {
+                    this.expenses = response.filter((item: Expense) => {
+                        return !item.isDeleted;
+                    });
+                }
+            });
+        }
+    }
+
+    private signOut(): void {
+        this._AngularFireAuth.auth.signOut().then((response: any) => {
+            this.user = null;
+            sessionStorage.removeItem('user');
+        });
+    }
+
+    private signIn(): void {
+        this._AngularFireAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    }
+
+    private updateStorage(user: any): void {
+        this.user = {
+            displayName: user.displayName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            photoURL: user.photoURL,
+            providerId: user.providerId,
+            uid: user.uid
+        };
+        sessionStorage.setItem('user', JSON.stringify(this.user));
     }
 }
