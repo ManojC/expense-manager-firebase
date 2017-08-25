@@ -22,7 +22,7 @@ webpackEmptyContext.id = "../../../../../src async recursive";
 
 var Routes = [
     {
-        path: '*',
+        path: '**',
         component: __WEBPACK_IMPORTED_MODULE_0__app_component__["a" /* AppComponent */]
     }
 ];
