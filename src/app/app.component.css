@@ -7,9 +7,37 @@
 }
 
 .glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
     color: white;
     cursor: pointer;
 }
+
+.glyphicon-home::before {
+    content: "\E021";
+}
+
+.glyphicon-plus-sign::before {
+    content: "\E081";
+}
+
+.glyphicon-remove::before {
+    content: "\E014";
+}
+
+.glyphicon-upload::before {
+    content: "\E027";
+}
+
+.glyphicon-menu-hamburger:before {
+    content: "\E236";
+}    
 
 .glyphicon:hover {
     color: white;
