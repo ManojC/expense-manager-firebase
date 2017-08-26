@@ -11,7 +11,9 @@ import { Expense } from "./models/expense";
 })
 export class AppComponent implements OnInit {
 
+    private loading: boolean = true;
     private user: any;
+    private window: any = window;
     private expenses: Expense[] = [];
     private newExpense: Expense = new Expense();
     private valid: boolean = true;
@@ -72,6 +74,7 @@ export class AppComponent implements OnInit {
                     this.expenses = response.filter((item: Expense) => {
                         return !item.isDeleted;
                     });
+                    this.loading = false;
                 }
             });
         }
