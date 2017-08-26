@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
             if (user) {
                 this.updateStorage(user);
                 this.initialiseDatabase();
+            } else {
+                this.loading = false;
             }
         });
     }

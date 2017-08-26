@@ -35,7 +35,7 @@
                     <input name="description" [(ngModel)]="newExpense.description" type="text" placeholder="expense description" class="form-control">
                 </div>
                 <div class="row mtl">
-                    <button id="btnSave" class="btn btn-sm btn-primary text-center" [disabled]="!newExpense.name || !newExpense.amount || !newExpense.description"
+                    <button id="btnSave" class="btn btn-sm btn-success text-center" [disabled]="!newExpense.name || !newExpense.amount || !newExpense.description"
                         (click)="save(); showCard = false;">
                             SAVE &nbsp; <i class="glyphicon glyphicon-upload"></i>
                         </button>
@@ -69,7 +69,7 @@
             </div>
         </ng-container>
     </div>
-    <div *ngIf="user && (!expenses || !expenses.length)" class="col-lg-12">
+    <div *ngIf="user && (!expenses || !expenses.length)" class="col-lg-12  info-section">
         <div class="text-center text-primary">
             No Records found!
         </div>
